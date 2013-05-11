@@ -17,7 +17,7 @@
 
 #define GRID_ROW 7
 #define GRID_COLUMN 7
-#define MAX_TIME 30
+#define MAX_TIME 90
 
 #define GRID_OFFSET ccp(5,100)
 #define ELFSHEET 1
@@ -67,7 +67,7 @@ private:
 	CCLabelBMFont* timeLabel;
 	
 	void updateElves(int row,int col);
-	void moveElves(int total, int row, int col, bool bonus);
+	void moveElves(int total, int row, int col, bool bonus, bool rewarded);
 	void goTop(const map<int,int> &indices, CCArray* goingTop, bool bonus);
 	
 	void timeRunning();

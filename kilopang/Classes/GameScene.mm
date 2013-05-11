@@ -126,6 +126,7 @@ void GameScene::updateElves(int row, int col)
 	int total = 0, numDouble = 0, numClock = 0;
 	int beginI = 0, beginJ = 0, endI = 0, endJ = 0;
 	bool bonus = false;
+	bool rewarded = false;
 	if (grid[row][col]->getAttr()!=Bigbang)
 	{
 		beginI = row-1>0?row-1:0;
@@ -135,6 +136,7 @@ void GameScene::updateElves(int row, int col)
 	}
 	else
 	{
+		rewarded = true;
 		endI = GRID_ROW - 1;
 		endJ = GRID_COLUMN -1;
 	}
@@ -149,30 +151,31 @@ find:
 					numDouble++;
 				if (e->getAttr() == Clock)
 					numClock++;
-				if (e->getAttr() == Bigbang && i!=row && j!=col) {
+				if (e->getAttr() == Bigbang && (i!=row || j!=col)) {
 					e->setAttr(Normal);
 					beginI = beginJ = 0;
 					endI = GRID_ROW - 1;
 					endJ = GRID_COLUMN -1;
 					total = numDouble = numClock = 0;
+					rewarded = true;
 					goto find;
 				}
 			}
 		}
 	}
 	bonus = updateScore(total, numDouble);
-	moveElves(total, row, col, bonus);
+	moveElves(total, row, col, bonus, rewarded);
 	if (numClock > 0)
 		timeAdd(numClock*2+1);
 }
 
-void GameScene::moveElves(int total, int row, int col, bool bonus)
+void GameScene::moveElves(int total, int row, int col, bool bonus, bool rewarded)
 {
 	CCArray* goingTop = CCArray::create();
 	map<int,int> indices;
 	elfAttr attr = Normal;
 	int count = 0;
-	if (total >= 4) {
+	if (total >= 4 && !rewarded) {
 		if (total == 4)
 			attr = Double;
 		else if (total == 5)

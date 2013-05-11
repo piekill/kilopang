@@ -29,6 +29,11 @@ void Elf::initElfSprite(int i, int j, int type, elfAttr elfattr, bool fromTop)
 	attr = elfattr;
 	elfSprite->setTextureRect(CCRectMake((elfType%3)*ELF_SIZE, elfType/3*ELF_SIZE,  ELF_SIZE-2, ELF_SIZE-2));
 	elfSprite->setAnchorPoint(ccp(0,0));
+	if (elfattr == Bigbang) {
+		elfSprite->setScale(0.5);
+	}
+	else
+		elfSprite->setScale(1.0);
 	if (!fromTop)
 		elfSprite->setPosition(ccp(ELF_SIZE*j + GRID_OFFSET.x,ELF_SIZE*(GRID_ROW-i-1)+GRID_OFFSET.y));
 	else{
